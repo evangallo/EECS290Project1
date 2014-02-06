@@ -177,6 +177,7 @@ public class GridCreator : MonoBehaviour {
 					cell.GetComponentInChildren<TextMesh>().renderer.enabled = false;
 
 					if (!PathCells.Contains(cell)) {
+						cell.Translate (new Vector3(0f,1f,0f));
 						// HINT: Try something here to make the maze 3D
 						cell.renderer.material.color = Color.black;
 					}
