@@ -1,0 +1,63 @@
+EECS 290 Team 2
+Monster Maze Project
+Project Directory: www.github.com/evangallo
+
+List of Goals (Please realize the latter steps are more optional than required):
+1. Make 2D Maze
+2. Transform 2D Maze into 3D Maze
+3. Camera Views
+ a. 2D top view for development purposes
+ b. 3D FPS view for playing purposes
+4. Create character model (does not have to be animated skeleton)
+ a. Player is a camera that moves through maze
+ b. Player has a gun
+ c. Player’s gun has a flashlight attached, which is powered by batteries (Directional/Point light?)
+ d. Cursor (crosshairs) is focus of both gun and light
+ e. Cursor (crosshairs) is attached to player object (cube or sphere) where cursor will move when object (player) is rotated, etc.
+5. Notable maze points (initial state to goal state)
+ a. Player spawns at GREEN cube location
+ b. Player moves to next level at RED cube location
+ c. Batteries scattered throughout maze randomly with frequent intervals down any given path
+ d. If we use ammo, ammo will spawn like batteries
+6. Add Player controls (Unity has pre-developed settings somewhere)
+ a. WASD for player movement
+ b. Mouse for player rotation
+ c. Mouse left click to shoot
+ d. (Optional) Mouse right click to throw grenade
+ e. (Optional) Mouse scroll wheel to zoom gun (scope)
+7. Add Monster models and scripts (Unity Asset Store for free)
+ a. Easily add skeletons to models (unless already attached)
+ b. Animate skeletons (C# scripts)
+8. Add Music (Public domain)
+9. Add Cut-scenes (Intro to game, death, level completion, etc.)
+ a. Blood-curdling noises, lots of blood drops, horror sounds, etc. 
+10. Add GUI
+ a. Player HUD (stats on player like ammo count, battery count, battery life timer, etc.)
+ b. Start menu and if death, options menu to restart game, quit, etc.
+11. Add textures to maze
+ a. Windows 95 screensaver brick maze theme
+ b. New 3D cool maze theme (more textured and discrete)
+12. Add power ups at dead ends of maze
+ a. Script for finding dead ends of maze
+ b. Add power ups at these dead ends
+  i. Power-ups include new guns, maze maps, unlimited/longer lasting batteries, unlimited ammo, grenades, invincibility, etc.
+ c. Have player hold multiple guns
+ d. Gun models in Asset store
+13. Add flashlight power ups
+ a. Unlimited batteries
+ b. Whole maze turns light (maybe God mode?)
+14. Add invincibility (if we have a lot of free time at this point)
+ a. Walk through enemies
+ b. See solution to maze
+ c. Best gun
+15. Add more thoughts here..
+
+List of Duties thus far:
+
+Brian: Create player and controls
+Ian: Texturing, most notably on maze
+Thomas: Look up online FPS tutorials for better ideas
+Evan: Wall/gameplay features like colliders, etc.
+James: Lighting and weapons
+Rachel: Death transition screen, sources for sounds and media on the public domain, etc.
+Shaun: Documentation, GUI development, menu options, display resolution, etc.
