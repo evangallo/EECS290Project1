@@ -192,8 +192,8 @@ public class GridCreator : MonoBehaviour {
 			AdjSet[lowestList].Remove(next);
 		} while (next.GetComponent<CellScript>().AdjacentsOpened >= 2);	// This keeps the walls in the grid, otherwise Prim's Algorithm would just visit every cell
 
-		// The 'next' transform's material color becomes white.
-        next.renderer.material.color = new Color(.02f, .02f, .02f);
+		// Setting color to black because render color is the color displayed before lighting effects are applied.
+        next.renderer.material.color = Color.black;
 		// We add this 'next' transform to the Set our function.
 		AddToSet(next);
 		// Recursively call this function as soon as it finishes.
