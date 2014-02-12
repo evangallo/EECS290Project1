@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Shothandler : MonoBehaviour {
+public class ShotController : MonoBehaviour {
 
     public Vector3 velocity;
     public float damage;
