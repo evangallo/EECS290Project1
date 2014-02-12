@@ -15,6 +15,12 @@ using System.Collections.Generic;
 public class GridCreator : MonoBehaviour {
 	
 	public Transform CellPrefab;
+	public Transform CellNoEntrance;
+	public Transform CellOneEntrance;
+	public Transform CellTwoAcross;
+	public Transform CellTwoAdjacent;
+	public Transform CellThreeEntrances;
+	public Transform CellNoWalls;
 	public Vector3 Size;
 	public Transform[,] Grid;
 
@@ -35,10 +41,10 @@ public class GridCreator : MonoBehaviour {
 		for (int x = 0; x < Size.x; x++) {
 			for (int z = 0; z < Size.z; z++) {
 				Transform newCell;
-				newCell = (Transform)Instantiate(CellPrefab, new Vector3(x, 0, z), Quaternion.identity);
+				newCell = (Transform)Instantiate(CellPrefab, new Vector3(x * 2, 0, z * 2), Quaternion.identity);
 				newCell.name = string.Format("({0},0,{1})", x, z);
 				newCell.parent = transform;
-				newCell.GetComponent<CellScript>().Position = new Vector3(x, 0, z);
+				newCell.GetComponent<CellScript>().Position = new Vector3(x * 2, 0, z * 2);
 				Grid[x,z] = newCell;
 			}
 		}
@@ -129,7 +135,7 @@ public class GridCreator : MonoBehaviour {
 			AdjSet.Add(new List<Transform>());	
 		}
 		
-		Grid[0, 0].renderer.material.color = Color.green;
+		//Grid[0, 0].renderer.material.color = Color.green;
 		AddToSet(Grid[0, 0]);
 	}
 
@@ -149,7 +155,8 @@ public class GridCreator : MonoBehaviour {
 	// Determines the next cell to be visited.
 	void FindNext () {
 		Transform next;
-
+		List<Transform>[] AdjSetCopy = new List<Transform>[AdjSet.Count];
+		AdjSet.CopyTo(AdjSetCopy);
 		do {
 			bool isEmpty = true;
 			int lowestList = 0;
@@ -172,14 +179,41 @@ public class GridCreator : MonoBehaviour {
 				CancelInvoke("FindNext");
 				PathCells[PathCells.Count - 1].renderer.material.color = Color.red;
 				
-				foreach (Transform cell in Grid) {
-					// Removes displayed weight
-					cell.GetComponentInChildren<TextMesh>().renderer.enabled = false;
-
-					if (!PathCells.Contains(cell)) {
-						cell.Translate (new Vector3(0f,1f,0f));
-						// HINT: Try something here to make the maze 3D
-						//cell.renderer.material.color = Color.black;
+				for (int x = 0; x < Size.x; x++) {
+					for(int z = 0; z < Size.z; z++){
+						Transform cell = Grid[x, z];
+						// Removes displayed weight
+						cell.GetComponentInChildren<TextMesh>().renderer.enabled = false;
+	
+						// TODO: This is where we need to implement the decision of which prefab to place.
+						// I have a basic implementation of it but we need to figure out how it will
+						// determine direction.
+						int adjacentsInPath = 0;
+						for(int i = 0; i < 10; i++){
+							foreach(Transform adj in AdjSetCopy[i]){
+								if(PathCells.Contains(adj))
+									adjacentsInPath++;
+							}
+						}
+	
+						Vector3 cellPos = cell.GetComponent<CellScript>().Position;
+						switch(adjacentsInPath){
+						case 0:
+							cell = (Transform)Instantiate(CellNoEntrance, cellPos, Quaternion.identity);
+							break;
+						case 1:
+							cell = (Transform)Instantiate(CellOneEntrance, cellPos, Quaternion.identity);
+							break;
+						case 2:
+							cell = (Transform)Instantiate(CellTwoAcross, cellPos, Quaternion.identity);
+							break;
+						case 3:
+							cell = (Transform)Instantiate(CellThreeEntrances, cellPos, Quaternion.identity);
+							break;
+						default:
+							cell = (Transform)Instantiate(CellNoWalls, cellPos, Quaternion.identity);
+							break;
+						}
 					}
 				}
 				return;
