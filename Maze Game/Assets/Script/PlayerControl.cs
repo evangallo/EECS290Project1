@@ -14,7 +14,7 @@ public class PlayerControl : MonoBehaviour {
 	}
 
 	void Update () {
-		lateralMovement = Input.GetAxis ("Horizontal");
+		/*lateralMovement = Input.GetAxis ("Horizontal");
 		forwardMovement = Input.GetAxis ("Vertical");
 		aimHorizontal = Input.mousePosition.x;
 		aimVertical = Input.mousePosition.y;
@@ -33,20 +33,20 @@ public class PlayerControl : MonoBehaviour {
 			transform.Rotate(new Vector3 (-1f, 0f, 0f), 
 			                 (aimVertical - Screen.height/2)/Screen.height 
 			                 * rotationSpeed * Time.deltaTime);
-		}
+		}*/
 
 		
 	}
 
 	void FixedUpdate () {
-		transform.Translate (new Vector3 (Mathf.Cos(transform.localRotation.y) * lateralMovement -
+		/*transform.Translate (new Vector3 (Mathf.Cos(transform.localRotation.y) * lateralMovement -
 		                                  Mathf.Sin(transform.localRotation.y) * forwardMovement, 
 		                                  0f, 
 		                                  Mathf.Sin(transform.localRotation.y) * lateralMovement +
 		                                  Mathf.Cos(transform.localRotation.y) * forwardMovement) * 
 		                     			  Time.deltaTime, Space.World);
 
-
+*/
 	}
 
 

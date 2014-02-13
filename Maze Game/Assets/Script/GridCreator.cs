@@ -42,14 +42,20 @@ public class GridCreator : MonoBehaviour {
 				//cell.GetComponentInChildren<TextMesh>().renderer.enabled = false;
 				
 				// TODO: This is where we need to implement the decision of which prefab to place.
-				// I have a basic implementation of it but we need to figure out how it will
-				// determine direction.
+				// I have a basic implementation of it but we need to finish it
 				List<Transform> adjacentsInPath = new List<Transform>();
 				List<Vector3> adjacentPositions = new List<Vector3>();
-				foreach(Transform adj in cell.GetComponent<CellScript>().Adjacents){
-					if(PathCells.Contains (adj)){
-						adjacentsInPath.Add (adj);
-						adjacentPositions.Add (adj.GetComponent<CellScript>().Position);
+				for(int i = x - 1; i <= x + 1; i++){
+					for(int j = z - 1; j <= z + 1; j++){
+						if(i < 0 || i >= Size.x)
+							break;
+						else if(j < 0 || j >= Size.z)
+							continue;
+						Transform adj = Grid[i, j];
+						if(PathCells.Contains (adj)){
+							adjacentsInPath.Add (adj);
+							adjacentPositions.Add (adj.GetComponent<CellScript>().Position);
+						}
 					}
 				}
 				
@@ -230,7 +236,12 @@ public class GridCreator : MonoBehaviour {
 				Debug.Log("Generation completed in " + Time.timeSinceLevelLoad + " seconds."); 
 				CancelInvoke("FindNext");
 				PathCells[PathCells.Count - 1].renderer.material.color = Color.red;
-				
+				foreach(Transform cell in Grid){
+					cell.GetComponentInChildren<TextMesh>().renderer.enabled = false;
+					if(!PathCells.Contains (cell)){
+						cell.Translate (new Vector3(0f, 1f, 0f));
+					}
+				}
 				return;
 			}
 			// If we did not finish, then:
