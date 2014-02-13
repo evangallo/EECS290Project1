@@ -188,7 +188,7 @@ public class GridCreator : MonoBehaviour {
 						// TODO: This is where we need to implement the decision of which prefab to place.
 						// I have a basic implementation of it but we need to figure out how it will
 						// determine direction.
-						int adjacentsInPath = 0;
+						int adjacentsInPath = 1; //account for the parent cell
 						for(int i = 0; i < 10; i++){
 							foreach(Transform adj in AdjSetCopy[i]){
 								if(PathCells.Contains(adj))
