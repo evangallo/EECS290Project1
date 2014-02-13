@@ -31,6 +31,60 @@ public class GridCreator : MonoBehaviour {
 		SetAdjacents();
 		SetStart();
 		FindNext();
+		UpdateCellTypes();
+	}
+
+	void UpdateCellTypes(){
+		for (int x = 0; x < Size.x; x++) {
+			for(int z = 0; z < Size.z; z++){
+				Transform cell = Grid[x, z];
+				// Removes displayed weight
+				//cell.GetComponentInChildren<TextMesh>().renderer.enabled = false;
+				
+				// TODO: This is where we need to implement the decision of which prefab to place.
+				// I have a basic implementation of it but we need to figure out how it will
+				// determine direction.
+				List<Transform> adjacentsInPath = new List<Transform>();
+				List<Vector3> adjacentPositions = new List<Vector3>();
+				foreach(Transform adj in cell.GetComponent<CellScript>().Adjacents){
+					if(PathCells.Contains (adj)){
+						adjacentsInPath.Add (adj);
+						adjacentPositions.Add (adj.GetComponent<CellScript>().Position);
+					}
+				}
+				
+				Vector3 cellPos = cell.GetComponent<CellScript>().Position;
+				
+				switch(adjacentsInPath.Count){
+				case 0:
+					cell = (Transform)Instantiate(CellNoEntrance, cellPos, Quaternion.identity);
+					break;
+				case 1:
+					cell = (Transform)Instantiate(CellOneEntrance, cellPos, Quaternion.identity);
+					int leftOrRight = (adjacentPositions[0] - cell.localPosition).magnitude.CompareTo(0);
+					if(adjacentPositions[0].x != cell.localPosition.x && leftOrRight < 0){
+						cell.Rotate (0, 180, 0);
+					}else if(adjacentPositions[0].z != cell.localPosition.z){
+						cell.Rotate (0, leftOrRight * 90, 0);
+					}
+					break;
+				case 2:
+					bool across = (adjacentPositions[0].x == adjacentPositions[1].x || adjacentPositions[0].z == adjacentPositions[1].z);
+					if(across)
+						cell = (Transform)Instantiate(CellTwoAcross, cellPos, Quaternion.identity);
+					else
+						cell = (Transform)Instantiate(CellTwoAdjacent, cellPos, Quaternion.identity);
+					// TODO: rotations
+					break;
+				case 3:
+					cell = (Transform)Instantiate(CellThreeEntrances, cellPos, Quaternion.identity);
+					break;
+				default:
+					cell = (Transform)Instantiate(CellNoWalls, cellPos, Quaternion.identity);
+					break;
+				}
+			}
+		}
 	}
 
 	// Creates the grid by instantiating provided cell prefabs.
@@ -155,8 +209,6 @@ public class GridCreator : MonoBehaviour {
 	// Determines the next cell to be visited.
 	void FindNext () {
 		Transform next;
-		List<Transform>[] AdjSetCopy = new List<Transform>[AdjSet.Count];
-		AdjSet.CopyTo(AdjSetCopy);
 		do {
 			bool isEmpty = true;
 			int lowestList = 0;
@@ -179,43 +231,6 @@ public class GridCreator : MonoBehaviour {
 				CancelInvoke("FindNext");
 				PathCells[PathCells.Count - 1].renderer.material.color = Color.red;
 				
-				for (int x = 0; x < Size.x; x++) {
-					for(int z = 0; z < Size.z; z++){
-						Transform cell = Grid[x, z];
-						// Removes displayed weight
-						//cell.GetComponentInChildren<TextMesh>().renderer.enabled = false;
-	
-						// TODO: This is where we need to implement the decision of which prefab to place.
-						// I have a basic implementation of it but we need to figure out how it will
-						// determine direction.
-						int adjacentsInPath = 1; //account for the parent cell
-						for(int i = 0; i < 10; i++){
-							foreach(Transform adj in AdjSetCopy[i]){
-								if(PathCells.Contains(adj))
-									adjacentsInPath++;
-							}
-						}
-	
-						Vector3 cellPos = cell.GetComponent<CellScript>().Position;
-						switch(adjacentsInPath){
-						case 0:
-							cell = (Transform)Instantiate(CellNoEntrance, cellPos, Quaternion.identity);
-							break;
-						case 1:
-							cell = (Transform)Instantiate(CellOneEntrance, cellPos, Quaternion.identity);
-							break;
-						case 2:
-							cell = (Transform)Instantiate(CellTwoAcross, cellPos, Quaternion.identity);
-							break;
-						case 3:
-							cell = (Transform)Instantiate(CellThreeEntrances, cellPos, Quaternion.identity);
-							break;
-						default:
-							cell = (Transform)Instantiate(CellNoWalls, cellPos, Quaternion.identity);
-							break;
-						}
-					}
-				}
 				return;
 			}
 			// If we did not finish, then:
