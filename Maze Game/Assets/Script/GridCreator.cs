@@ -58,7 +58,7 @@ public class GridCreator : MonoBehaviour {
 	void SetRandomNumbers () {
 		foreach (Transform child in transform) {
 			int weight = Random.Range(0,10);
-			child.GetComponentInChildren<TextMesh>().text = weight.ToString();
+			//child.GetComponentInChildren<TextMesh>().text = weight.ToString();
 			child.GetComponent<CellScript>().Weight = weight;
 		}
 	}
@@ -183,7 +183,7 @@ public class GridCreator : MonoBehaviour {
 					for(int z = 0; z < Size.z; z++){
 						Transform cell = Grid[x, z];
 						// Removes displayed weight
-						cell.GetComponentInChildren<TextMesh>().renderer.enabled = false;
+						//cell.GetComponentInChildren<TextMesh>().renderer.enabled = false;
 	
 						// TODO: This is where we need to implement the decision of which prefab to place.
 						// I have a basic implementation of it but we need to figure out how it will
