@@ -51,17 +51,12 @@
      <Compile Include="Assets\Script\CharacterMotorC.cs" />
      <Compile Include="Assets\Script\FPSInputControllerC.cs" />
      <Compile Include="Assets\Script\GridCreator.cs" />
+     <Compile Include="Assets\Script\MouseCameraControl.cs" />
      <Compile Include="Assets\Script\PlayerControl.cs" />
      <Compile Include="Assets\Script\ShotController.cs" />
      <Compile Include="Assets\Weapons\Shothandler.cs" />
      <None Include="Assets\Fonts\soldier_of_the_dark\information.txt" />
      <None Include="Assets\Audio\MenuClipSource.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
-      <Project>{78E18ACD-EF8D-7B4D-0BD8-A7232AD8335B}</Project>      <Name>Assembly-CSharp-firstpass</Name>    </ProjectReference>
-    <ProjectReference Include="Assembly-UnityScript-firstpass.unityproj">
-      <Project>{B47EA7A7-F2B2-8421-027C-027FA9DA50D3}</Project>      <Name>Assembly-UnityScript-firstpass</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
