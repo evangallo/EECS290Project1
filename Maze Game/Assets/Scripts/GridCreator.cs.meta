@@ -1,0 +1,11 @@
+fileFormatVersion: 2
+guid: 5981d2182b7e2a8479a19ac3c90b3fc1
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - CellPrefab: {fileID: 400000, guid: 2b73d4d9eb08b7f4b8130ebd72904a7e, type: 2}
+  - WallMaterial: {fileID: 2100000, guid: 664f1bdd2de0ef54291a0b0a79c6ed13, type: 2}
+  - PathMaterial: {fileID: 2100000, guid: 88058cf8a1416b44cbd7e32078905504, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
