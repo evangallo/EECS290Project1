@@ -145,6 +145,11 @@ SubstanceImporter:
       filterMode: 1
       aniso: 1
       wrapMode: 0
+    - name: Galvanized_Metal_Height
+      alphaSource: 0
+      filterMode: 1
+      aniso: 1
+      wrapMode: 0
     buildTargetSettings:
     - serializedVersion: 2
       buildTarget: 

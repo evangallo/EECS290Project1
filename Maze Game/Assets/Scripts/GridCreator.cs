@@ -1,5 +1,4 @@
 ﻿using UnityEngine; 
-using UnityEditor;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -111,7 +110,7 @@ public class GridCreator : MonoBehaviour {
 			// Removes displayed weight
 			cell.GetComponentInChildren<TextMesh>().renderer.enabled = false;
 
-			cell.Translate (Vector3.up);
+			cell.Translate (new Vector3(0f, 2f, 0f));
 
 				// We set the material of the walls.
 				if (FirstWallGeneration) { // Check if first generation of wall material.
@@ -286,7 +285,7 @@ public class GridCreator : MonoBehaviour {
 					if (!PathCells.Contains(cell)) {
 
 						// We make the maze 3D by translation.
-						cell.Translate (Vector3.up);
+						cell.Translate(new Vector3(0f,2f,0f));
 	
 						// Sets the wall call material to the material instance.
 						cell.renderer.material = WallInstance;
