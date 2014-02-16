@@ -1,12 +1,9 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Script\GridCreator.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\GridCreator.cs">
     <Files>
-      <File FileName="Assets\Script\ShotController.cs" Line="1" Column="1" />
-      <File FileName="Assets\Script\ButtonControl.cs" Line="1" Column="1" />
-      <File FileName="Assets\Script\GridCreator.cs" Line="78" Column="12" />
-      <File FileName="Assets\Script\CellScript.cs" Line="1" Column="1" />
-      <File FileName="Assets\Standard Assets\Character Controllers\Sources\Scripts\FPSInputController.js" Line="27" Column="47" />
+      <File FileName="Assets\Scripts\GridCreator.cs" Line="117" Column="78" />
+      <File FileName="Assets\Scripts\CellScript.cs" Line="20" Column="15" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
