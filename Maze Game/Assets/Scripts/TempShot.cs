@@ -17,7 +17,7 @@ public class TempShot : MonoBehaviour
 
     void Shot()
     {
-        Transform pel = (Transform)Instantiate(Bullet, Spawn.position, Spawn.rotation);
+        Transform pel = (Transform)Instantiate(Bullet, (Spawn.position +Spawn.localScale/2), Spawn.rotation);
         pel.rigidbody.AddForce(transform.forward * 1000);
     }
 }

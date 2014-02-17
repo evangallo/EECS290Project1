@@ -20,7 +20,7 @@ public class MonsterHealth : MonoBehaviour {
         if (thisCollision.gameObject.GetComponent("ShotController") != null)
         {
             ShotController t = (ShotController)thisCollision.gameObject.GetComponent("ShotController");
-            health -= 10f;
+            health -= t.damage;
         }
     }
 }
