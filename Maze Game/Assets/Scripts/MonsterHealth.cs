@@ -23,4 +23,8 @@ public class MonsterHealth : MonoBehaviour {
             health -= t.damage;
         }
     }
+    void ApplyDamage(float damage)
+    {
+        health -= damage;
+    }
 }
