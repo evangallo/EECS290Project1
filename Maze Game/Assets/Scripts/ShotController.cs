@@ -7,10 +7,12 @@ public class ShotController : MonoBehaviour {
     public Vector3 velocity, position;
     public float damage;
     public Transform prefab;
+    bool hasHit;
 	// Use this for initialization
     void Start()
     {
         count = 3.0f;
+        hasHit = false;
         //prefab.rigidbody.MovePosition(position);
         //prefab.rigidbody.AddForce(velocity, ForceMode.VelocityChange);
 	}
@@ -25,15 +27,16 @@ public class ShotController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         count -= Time.deltaTime;
-        if (count <= 0f)
+        if (count <= 0f || hasHit)
             Destroy(gameObject);
 	}
     void OnCollisionEnter(Collision theCollision)
     {
-        if (theCollision.gameObject.name == "Groucho")
-        {
-            return;
-        }
-        Destroy(gameObject);
+        hasHit = true;
+    }
+    public float HitMonster()
+    {
+        hasHit = true;
+        return damage;
     }
 }
