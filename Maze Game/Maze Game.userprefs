@@ -1,9 +1,8 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\GridCreator.cs">
+  <MonoDevelop.Ide.Workspace />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\FlashlightControler.cs">
     <Files>
-      <File FileName="Assets\Scripts\GridCreator.cs" Line="117" Column="78" />
-      <File FileName="Assets\Scripts\CellScript.cs" Line="20" Column="15" />
+      <File FileName="Assets\Scripts\FlashlightControler.cs" Line="22" Column="60" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

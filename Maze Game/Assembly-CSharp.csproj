@@ -39,16 +39,17 @@
 	<Reference Include="System.Core" />
 	<Reference Include="System.Xml.Linq" />
 	<Reference Include="UnityEngine">
-	  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
+	  <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEngine.dll</HintPath>
 	</Reference>
 	<Reference Include="UnityEditor">
-	  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
+	  <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEditor.dll</HintPath>
 	</Reference>
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Dungeon Art Pack\AnimateSprite.cs" />
      <Compile Include="Assets\Scripts\ButtonControl.cs" />
      <Compile Include="Assets\Scripts\CellScript.cs" />
+     <Compile Include="Assets\Scripts\FlashlightControler.cs" />
      <Compile Include="Assets\Scripts\GridCreator.cs" />
      <Compile Include="Assets\Scripts\GunControl.cs" />
      <Compile Include="Assets\Scripts\MonsterHealth.cs" />
