@@ -4,6 +4,7 @@ using System.Collections;
 public class RaycastShot : MonoBehaviour {
     public float damage;
     public Transform origin;
+	public ParticleEmitter bullets;
     private Vector3 dir;
 
 	// Use this for initialization
@@ -20,6 +21,7 @@ public class RaycastShot : MonoBehaviour {
     void Shoot()
     {
         RaycastHit hit;
+		bullets.Emit(3);
         if (Physics.Raycast(origin.position, dir, out hit))
         {
             if (hit.collider.gameObject.tag == "Monster")
