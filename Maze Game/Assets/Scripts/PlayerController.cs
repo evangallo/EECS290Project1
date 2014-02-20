@@ -58,8 +58,11 @@ public class PlayerController : MonoBehaviour {
 
 	}
 
-	void deductHealth(){
-		Debug.Log ("You're touching something");
-				playerHealth -= 1.0f;
+	void OnTriggerEnter(Collider other){
+		Debug.Log ("You're touching an object!");
+		if (other.tag == "Monster") {
+				playerHealth -= 100.0f;
+			}
 		}
+
 }
