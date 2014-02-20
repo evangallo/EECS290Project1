@@ -358,13 +358,22 @@ public class GridCreator : MonoBehaviour {
 		// We also check against PathCells.Count so that we can't run out of cells to use.
 		Debug.Log ("About to start placing monsters. We can place up to " + (MaxMonsters < PathCells.Count ? (MaxMonsters + "(MaxMonsters)") : (PathCells.Count + "(PathCells.Count)")) + ".");
 		while(monstersPlaced < MaxMonsters && monstersPlaced < PathCells.Count){
-			Transform targetCell = PathCells[Random.Range (0, PathCells.Count - 1)];
+			int targetIndex = Random.Range (0, PathCells.Count - 1);
+			Transform targetCell = PathCells[targetIndex];
+			int placementAttempts = 0;
 			while(cellsUsed.Contains(targetCell)){
-				targetCell = PathCells[Random.Range (0, PathCells.Count - 1)];
+				targetCell = PathCells[(targetIndex + 7) % PathCells.Count];
+				if(++placementAttempts > 1000){
+					break;
+				}
 			}
-			cellsUsed.Add (targetCell);
-			Vector3 cellPosition = targetCell.position;
-			Transform monster = (Transform)Instantiate (Monster, cellPosition, Quaternion.identity);
+			if(!(placementAttempts > 1000)){
+				cellsUsed.Add (targetCell);
+				Vector3 cellPosition = targetCell.position;
+				cellPosition.Set (cellPosition.x, cellPosition.y + 1, cellPosition.z);
+				Transform monster = (Transform)Instantiate (Monster, cellPosition, Quaternion.identity);
+			}
+			monstersPlaced++;
 		}
 		Debug.Log ("Placed " + monstersPlaced + " enemies, finishing at " + Time.timeSinceLevelLoad + "s.");
 	}
