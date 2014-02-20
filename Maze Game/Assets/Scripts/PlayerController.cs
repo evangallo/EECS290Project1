@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour {
 	public float mouseSensitivity = 5.0f;
 	public float jumpSpeed = 20.0f;
 	public Transform PlayerCamera;
+	public float playerHealth = 100.0f;
 	
 	float verticalRotation = 0;
 	public float upDownRange = 60.0f;
@@ -24,6 +25,10 @@ public class PlayerController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		//Death Check
+		if (playerHealth <= 0.0f) {
+			Application.LoadLevel (2);
+		}
 		// Rotation
 		
 		float rotLeftRight = Input.GetAxis("Mouse X") * mouseSensitivity;
@@ -50,6 +55,11 @@ public class PlayerController : MonoBehaviour {
 		
 		
 		characterController.Move( speed * Time.deltaTime );
+
 	}
-	
+
+	void deductHealth(){
+		Debug.Log ("You're touching something");
+				playerHealth -= 1.0f;
+		}
 }

@@ -11,6 +11,8 @@ public class ButtonControl : MonoBehaviour {
 
 	public bool isQuitButton;
 
+	public bool isRestartButton;
+
 	void Start(){
 	
 	}
@@ -34,16 +36,19 @@ public class ButtonControl : MonoBehaviour {
 			//Loads game, designated in build settings as level 1
 			Application.LoadLevel(1);
 
-		} else if (isOptionsButton) {
+		} /*else if (isOptionsButton) {
 
 			//Loads options menu, designated in build settings as level 2
 			Application.LoadLevel(2);
 
-		} else if (isQuitButton) {
+		}*/ else if (isQuitButton) {
 
 			//Quits game
 			Application.Quit();
 
+		} else if (isRestartButton) {
+			//Restarts from level 1
+			Application.LoadLevel(1);
 		}
 	}
 }
