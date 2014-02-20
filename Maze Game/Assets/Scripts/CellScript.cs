@@ -18,4 +18,9 @@ public class CellScript : MonoBehaviour {
 	public int Weight;
 	public int AdjacentsOpened = 0;
 	public bool IsOuterWallCell = false;
+
+  /*void OnTriggerEnter(Collider) {
+
+	} */
+
 }
