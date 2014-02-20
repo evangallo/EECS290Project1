@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 
 Project("{AD7B5303-E03E-BC3F-3121-B0B4FA7D3AEA}") = "Maze Game", "Assembly-CSharp-vs.csproj", "{0FAA79C0-D439-C78C-FC16-E3C2DDCBEA87}"
 EndProject
+Project("{AD7B5303-E03E-BC3F-3121-B0B4FA7D3AEA}") = "Maze Game", "Assembly-CSharp-Editor-vs.csproj", "{59AD2145-2C5E-84F0-5344-7CF3F77C4839}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,11 +15,15 @@ Global
 		{0FAA79C0-D439-C78C-FC16-E3C2DDCBEA87}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0FAA79C0-D439-C78C-FC16-E3C2DDCBEA87}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0FAA79C0-D439-C78C-FC16-E3C2DDCBEA87}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59AD2145-2C5E-84F0-5344-7CF3F77C4839}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59AD2145-2C5E-84F0-5344-7CF3F77C4839}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59AD2145-2C5E-84F0-5344-7CF3F77C4839}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59AD2145-2C5E-84F0-5344-7CF3F77C4839}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-																																																						GlobalSection(MonoDevelopProperties) = preSolution
+																																																											GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = Assembly-CSharp.csproj
 		Policies = $0
 		$0.TextStylePolicy = $1

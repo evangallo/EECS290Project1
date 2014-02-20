@@ -29,6 +29,9 @@ public class GridCreator : MonoBehaviour {
 	// Prefab of the monster enemy
 	public Transform Monster;
 
+	//Prefab of the battery
+	public Transform Battery;
+
 	// The size of our grid (x, z) components.
 	public Vector3 Size;
 
@@ -37,6 +40,9 @@ public class GridCreator : MonoBehaviour {
 
 	// Maximum number of enemies to place
 	public int MaxMonsters;
+
+	//Maximum number of batteries to place
+	public int MaxBatteries;
 
 	// Procedural material of the wall, loaded in Inspector.
 	public ProceduralMaterial WallSubstance;
@@ -66,6 +72,7 @@ public class GridCreator : MonoBehaviour {
 		SetStart();
 		FindNext();
 		StartCoroutine(PlaceMonsters());
+		StartCoroutine(PlaceBatteries());
 	}
 
 	// Creates the boundary for the maze by instantiating cell walls and materials.
@@ -339,6 +346,35 @@ public class GridCreator : MonoBehaviour {
 		AddToSet(next);
 		// Recursively call this function as soon as it finishes.
 		Invoke("FindNext", 0);
+	}
+
+	IEnumerator PlaceBatteries(){
+		float waitTime = 0.25f;
+		float timeWaited = 0f;
+			while (gridBeingGenerated) {
+				yield return new WaitForSeconds (waitTime);
+				timeWaited += waitTime;
+			}
+		int batteriesPlaced = 0;
+		List<Transform> cellsUsed = new List<Transform>();
+		while (batteriesPlaced < MaxBatteries && batteriesPlaced < PathCells.Count) {
+			int targetIndex = Random.Range (0, PathCells.Count - 1);
+			Transform targetCell = PathCells [targetIndex];
+			int placementAttempts = 0;
+			while (cellsUsed.Contains(targetCell)) {
+				targetCell = PathCells[(targetIndex + 7) % PathCells.Count];
+				if(++placementAttempts > 1000){
+					break;
+				}
+			}
+			if(!(placementAttempts > 1000)){
+				cellsUsed.Add (targetCell);
+				Vector3 cellPosition = targetCell.position;
+				cellPosition.Set (cellPosition.x, cellPosition.y + 1.5f, cellPosition.z);
+				Transform battery = (Transform)Instantiate (Battery, cellPosition, Quaternion.identity);
+			}
+			batteriesPlaced++;
+		}
 	}
 
 	IEnumerator PlaceMonsters(){

@@ -15,6 +15,7 @@ public class Battery : MonoBehaviour {
 
     void OnTriggerEnter(Collider other)
     {
+		Debug.Log ("You have touched a battery!");
         if (other.tag == "Player")
         {
             other.BroadcastMessage("ExtendBatteryLife");
