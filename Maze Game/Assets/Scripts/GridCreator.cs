@@ -1,6 +1,7 @@
 ﻿using UnityEngine; 
 using System.Collections;
 using System.Collections.Generic;
+using Pathfinding;
 
 /**
  * Creates a grid of specified dimensions and generates a procedural maze using a
@@ -19,17 +20,20 @@ using System.Collections.Generic;
  */ 
 public class GridCreator : MonoBehaviour {
 
-	// Multiplies the size of the maze; initially set to one.
-	public float MazeMultiplier = 1;
-
 	// Prefab of maze cell, very basic default diffuse, loaded in Inspector.
 	public Transform CellPrefab;
+
+	// Prefab of the monster enemy
+	public Transform Monster;
 
 	// The size of our grid (x, z) components.
 	public Vector3 Size;
 
 	// Grid array for storing maze cells.
 	public Transform[,] Grid;
+
+	// Maximum number of enemies to place
+	public int MaxMonsters;
 
 	// Procedural material of the wall, loaded in Inspector.
 	public ProceduralMaterial WallSubstance;
@@ -43,6 +47,9 @@ public class GridCreator : MonoBehaviour {
 	// Tells us whether the first wall material was generated.
 	private bool FirstWallGeneration = true;
 
+	// Tells the monster generation function that we're still making the grid
+	private bool gridBeingGenerated = true;
+
 	// These properties may be implemented in a GUI interface for changing materials upon start up.
 //	private ProceduralPropertyDescription[] currWallProperties;
 //	private ProceduralPropertyDescription[] currPathProperties;
@@ -55,6 +62,7 @@ public class GridCreator : MonoBehaviour {
 		SetAdjacents();
 		SetStart();
 		FindNext();
+		StartCoroutine(PlaceMonsters());
 	}
 
 	// Creates the boundary for the maze by instantiating cell walls and materials.
@@ -66,9 +74,7 @@ public class GridCreator : MonoBehaviour {
 		// Generates walls along x = -1.
 		for (int z = 0; z < Size.z; z++) {
 			Transform newCell;
-			newCell = (Transform)Instantiate(CellPrefab,
-			                                 new Vector3(-1 * MazeMultiplier, 0, z * MazeMultiplier),
-			                                 Quaternion.identity);
+			newCell = (Transform)Instantiate(CellPrefab, new Vector3(-1, 0, z), Quaternion.identity);
 			newCell.name = string.Format("({0},0,{1})", -1, z);
 			newCell.parent = transform;
 			newCell.GetComponent<CellScript>().IsOuterWallCell = true;
@@ -79,9 +85,7 @@ public class GridCreator : MonoBehaviour {
 		// Generates walls along z = -1.
 		for (int x = 0; x < Size.x; x++) {
 			Transform newCell;
-			newCell = (Transform)Instantiate(CellPrefab,
-			                                 new Vector3(x * MazeMultiplier, 0, -1 * MazeMultiplier),
-			                                 Quaternion.identity);
+			newCell = (Transform)Instantiate(CellPrefab, new Vector3(x, 0, -1), Quaternion.identity);
 			newCell.name = string.Format("({0},0,{1})", x, -1);
 			newCell.parent = transform;
 			newCell.GetComponent<CellScript>().IsOuterWallCell = true;
@@ -92,9 +96,7 @@ public class GridCreator : MonoBehaviour {
 		// Generates walls along z = Size.z.
 		for (int x = 0; x < Size.x; x++) {
 			Transform newCell;
-			newCell = (Transform)Instantiate(CellPrefab,
-			                                 new Vector3(x * MazeMultiplier, 0, Size.z * MazeMultiplier),
-			                                 Quaternion.identity);
+			newCell = (Transform)Instantiate(CellPrefab, new Vector3(x, 0, Size.z), Quaternion.identity);
 			newCell.name = string.Format("({0},0,{1})", x, Size.z);
 			newCell.parent = transform;
 			newCell.GetComponent<CellScript>().IsOuterWallCell = true;
@@ -105,9 +107,7 @@ public class GridCreator : MonoBehaviour {
 		// Generates walls along x = Size.x.
 		for (int z = 0; z < Size.z; z++) {
 			Transform newCell;
-			newCell = (Transform)Instantiate(CellPrefab,
-			                                 new Vector3(Size.x * MazeMultiplier, 0, z * MazeMultiplier),
-			                                 Quaternion.identity);
+			newCell = (Transform)Instantiate(CellPrefab, new Vector3(Size.x, 0, z), Quaternion.identity);
 			newCell.name = string.Format("({0},0,{1})", Size.x, z);
 			newCell.parent = transform;
 			newCell.GetComponent<CellScript>().IsOuterWallCell = true;
@@ -121,7 +121,7 @@ public class GridCreator : MonoBehaviour {
 			// Removes displayed weight
 			cell.GetComponentInChildren<TextMesh>().renderer.enabled = false;
 
-			cell.Translate (new Vector3(0f, 2f,0f));
+			cell.Translate (new Vector3(0f, 2f, 0f));
 
 				// We set the material of the walls.
 				if (FirstWallGeneration) { // Check if first generation of wall material.
@@ -144,9 +144,7 @@ public class GridCreator : MonoBehaviour {
 		for (int x = 0; x < Size.x; x++) {
 			for (int z = 0; z < Size.z; z++) {
 				Transform newCell;
-				newCell = (Transform)Instantiate(CellPrefab,
-				                                 new Vector3(x * MazeMultiplier, 0, z * MazeMultiplier),
-				                                 Quaternion.identity);
+				newCell = (Transform)Instantiate(CellPrefab, new Vector3(x, 0, z), Quaternion.identity);
 				newCell.name = string.Format("({0},0,{1})", x, z);
 				newCell.parent = transform;
 				newCell.GetComponent<CellScript>().Position = new Vector3(x, 0, z);
@@ -286,6 +284,7 @@ public class GridCreator : MonoBehaviour {
 			// The maze is complete.
 			if (isEmpty) { 
 				Debug.Log("Generation completed in " + Time.timeSinceLevelLoad + " seconds."); 
+				gridBeingGenerated = false;
 				CancelInvoke("FindNext");
 				PathCells[PathCells.Count - 1].renderer.material.color = Color.red;
 				
@@ -332,6 +331,34 @@ public class GridCreator : MonoBehaviour {
 		AddToSet(next);
 		// Recursively call this function as soon as it finishes.
 		Invoke("FindNext", 0);
+	}
+
+	IEnumerator PlaceMonsters(){
+		float waitTime = 0.25f;
+		float timeWaited = 0f;
+		while(gridBeingGenerated){
+			//Debug.Log ("Waiting " + waitTime + "s. Have waited " + timeWaited + "s.");
+			yield return new WaitForSeconds(waitTime);
+			timeWaited += waitTime;
+		}
+		//TODO: Make a the graph update properly so the game doesn't hang when a monster gets placed.
+		/*NavGraph graph = GameObject.FindGameObjectWithTag("NavGraph");
+		AstarPath path = graph.
+		path.Scan ();*/
+		int monstersPlaced = 0;
+		List<Transform> cellsUsed = new List<Transform>();
+		// We also check against PathCells.Count so that we can't run out of cells to use.
+		Debug.Log ("About to start placing monsters. We can place up to " + (MaxMonsters < PathCells.Count ? (MaxMonsters + "(MaxMonsters)") : (PathCells.Count + "(PathCells.Count)")) + ".");
+		while(monstersPlaced < MaxMonsters && monstersPlaced < PathCells.Count){
+			Transform targetCell = PathCells[Random.Range (0, PathCells.Count - 1)];
+			while(cellsUsed.Contains(targetCell)){
+				targetCell = PathCells[Random.Range (0, PathCells.Count - 1)];
+			}
+			cellsUsed.Add (targetCell);
+			Vector3 cellPosition = targetCell.position;
+			Transform monster = (Transform)Instantiate (Monster, cellPosition, Quaternion.identity);
+		}
+		Debug.Log ("Placed " + monstersPlaced + " enemies, finishing at " + Time.timeSinceLevelLoad + "s.");
 	}
 
 	// Called once per frame.
