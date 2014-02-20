@@ -1,4 +1,4 @@
-﻿using UnityEngine; 
+using UnityEngine; 
 using System.Collections;
 using System.Collections.Generic;
 using Pathfinding;
@@ -19,6 +19,9 @@ using Pathfinding;
  * Contact: MinoruTono@Gmail.com
  */ 
 public class GridCreator : MonoBehaviour {
+
+    // Multiplies the size of the maze; initially set to one.
+    public float MazeMultiplier = 1;
 
 	// Prefab of maze cell, very basic default diffuse, loaded in Inspector.
 	public Transform CellPrefab;
@@ -74,8 +77,9 @@ public class GridCreator : MonoBehaviour {
 		// Generates walls along x = -1.
 		for (int z = 0; z < Size.z; z++) {
 			Transform newCell;
-			newCell = (Transform)Instantiate(CellPrefab, new Vector3(-1, 0, z), Quaternion.identity);
-			newCell.name = string.Format("({0},0,{1})", -1, z);
+            newCell = (Transform)Instantiate(CellPrefab,
+                        new Vector3(-1 * MazeMultiplier, 0, z * MazeMultiplier),
+                        Quaternion.identity); newCell.name = string.Format("({0},0,{1})", -1, z);
 			newCell.parent = transform;
 			newCell.GetComponent<CellScript>().IsOuterWallCell = true;
 			newCell.GetComponent<CellScript>().Position = new Vector3(-1, 0, z);
@@ -85,8 +89,9 @@ public class GridCreator : MonoBehaviour {
 		// Generates walls along z = -1.
 		for (int x = 0; x < Size.x; x++) {
 			Transform newCell;
-			newCell = (Transform)Instantiate(CellPrefab, new Vector3(x, 0, -1), Quaternion.identity);
-			newCell.name = string.Format("({0},0,{1})", x, -1);
+            newCell = (Transform)Instantiate(CellPrefab,
+                        new Vector3(x * MazeMultiplier, 0, -1 * MazeMultiplier),
+                        Quaternion.identity); newCell.name = string.Format("({0},0,{1})", x, -1);
 			newCell.parent = transform;
 			newCell.GetComponent<CellScript>().IsOuterWallCell = true;
 			newCell.GetComponent<CellScript>().Position = new Vector3(x, 0, -1);
@@ -96,8 +101,9 @@ public class GridCreator : MonoBehaviour {
 		// Generates walls along z = Size.z.
 		for (int x = 0; x < Size.x; x++) {
 			Transform newCell;
-			newCell = (Transform)Instantiate(CellPrefab, new Vector3(x, 0, Size.z), Quaternion.identity);
-			newCell.name = string.Format("({0},0,{1})", x, Size.z);
+            newCell = (Transform)Instantiate(CellPrefab,
+                        new Vector3(x * MazeMultiplier, 0, Size.z * MazeMultiplier),
+                        Quaternion.identity); newCell.name = string.Format("({0},0,{1})", x, Size.z);
 			newCell.parent = transform;
 			newCell.GetComponent<CellScript>().IsOuterWallCell = true;
 			newCell.GetComponent<CellScript>().Position = new Vector3(x, 0, Size.z);
@@ -107,8 +113,9 @@ public class GridCreator : MonoBehaviour {
 		// Generates walls along x = Size.x.
 		for (int z = 0; z < Size.z; z++) {
 			Transform newCell;
-			newCell = (Transform)Instantiate(CellPrefab, new Vector3(Size.x, 0, z), Quaternion.identity);
-			newCell.name = string.Format("({0},0,{1})", Size.x, z);
+            newCell = (Transform)Instantiate(CellPrefab,
+                        new Vector3(Size.x * MazeMultiplier, 0, z * MazeMultiplier),
+                        Quaternion.identity); newCell.name = string.Format("({0},0,{1})", Size.x, z);
 			newCell.parent = transform;
 			newCell.GetComponent<CellScript>().IsOuterWallCell = true;
 			newCell.GetComponent<CellScript>().Position = new Vector3(Size.x, 0, z);
@@ -144,8 +151,9 @@ public class GridCreator : MonoBehaviour {
 		for (int x = 0; x < Size.x; x++) {
 			for (int z = 0; z < Size.z; z++) {
 				Transform newCell;
-				newCell = (Transform)Instantiate(CellPrefab, new Vector3(x, 0, z), Quaternion.identity);
-				newCell.name = string.Format("({0},0,{1})", x, z);
+                newCell = (Transform)Instantiate(CellPrefab,
+                            new Vector3(x * MazeMultiplier, 0, z * MazeMultiplier),
+                            Quaternion.identity); newCell.name = string.Format("({0},0,{1})", x, z);
 				newCell.parent = transform;
 				newCell.GetComponent<CellScript>().Position = new Vector3(x, 0, z);
 				Grid[x,z] = newCell;
