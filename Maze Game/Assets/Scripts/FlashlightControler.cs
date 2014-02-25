@@ -4,12 +4,14 @@ using System.Collections;
 public class FlashlightControler : MonoBehaviour {
 
 	public float batteryLifeIncrement;
-	public GameObject flashLight;
+	public Light flashLight;
 	public GUIText batteryLifeDisplay;
 
 	private float batteryLife;
+	private float initialBrightness;
 	
 	void Start () {
+		initialBrightness = flashLight.intensity;
 		ExtendBatteryLife();
 	}
 	
@@ -17,13 +19,13 @@ public class FlashlightControler : MonoBehaviour {
 		if (batteryLife >= 0) {
 			batteryLife -= Time.deltaTime;
 		} else {
-			flashLight.SetActive (false);
+			flashLight.intensity = 0f;
 		}
 		batteryLifeDisplay.text = "Battery Life: " + Mathf.Round (batteryLife);
 	}
 
 	void ExtendBatteryLife () {
 		batteryLife += batteryLifeIncrement;
-		flashLight.SetActive (true);
+		flashLight.intensity = initialBrightness;
 	}
 }

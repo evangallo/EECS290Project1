@@ -59,13 +59,13 @@ public class PlayerController : MonoBehaviour {
 
 	}
 
-	void OnCollisionEnter(Collider other){
+	void OnCollisionEnter(Collision other){
 		Debug.Log ("You're touching an object!");
-		if (other.tag == "Monster") {
+		if (other.collider.transform.tag == "Monster") {
 			Debug.Log ("You're touching a monster!");
 			playerHealth -= 30.0f;
 		} else {
-			Debug.Log ("You touched a " + other.tag + ", which is NOT a Monster!");
+			Debug.Log ("You touched a " + other.collider.transform.tag + ", which is NOT a Monster!");
 		}
 	}
 
