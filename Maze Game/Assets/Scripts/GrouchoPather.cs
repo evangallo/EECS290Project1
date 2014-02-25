@@ -10,17 +10,18 @@ public class GrouchoPather : MonoBehaviour {
 	private Transform target;
 	private int currentWaypoint;
 	private CharacterController charController;
-	private float maxWaitTime = 5f;
     private bool havePath = false; //seemed to be trying to path before grid was calculated
 
 	// Use this for initialization
 	void Start () {
+		StartCoroutine(PathUpdater());
 	}
 	
 	// Update is called once per frame
 	void Update () {
         BeginPath();
 	}
+
     void BeginPath()
     {
         if (!havePath)
@@ -51,9 +52,22 @@ public class GrouchoPather : MonoBehaviour {
     }
 	
 	public void OnPathComplete(Path p){
-		if(p.error)
+		if(p.error){
+			Debug.Log ("Failed to generate a path.");
 			return;
-		
+		}
+		path = p;
+	}
+
+	IEnumerator PathUpdater(){
+		float waitTime = 0.25f;
+		do{
+			yield return new WaitForSeconds(waitTime);
+		}while(false);
+
+		target = GameObject.FindGameObjectsWithTag("Player")[0].transform;
+		Seeker seeker = GetComponent<Seeker>();
+		seeker.StartPath(transform.position, target.position, OnPathComplete);
 	}
 
 	void FixedUpdate(){
@@ -63,8 +77,12 @@ public class GrouchoPather : MonoBehaviour {
 			return;
 		Vector3 direction = (path.vectorPath[currentWaypoint] - transform.position).normalized * speed;
 		charController.SimpleMove(direction);
+		Vector3 lookDirection = direction;
+		lookDirection.Set(lookDirection.x, 0f, lookDirection.z);
+		transform.rotation = Quaternion.LookRotation(lookDirection);
 		
 		if(Vector3.Distance(transform.position, path.vectorPath[currentWaypoint]) < 0.1f)
 			currentWaypoint++;
+		
 	}
 }

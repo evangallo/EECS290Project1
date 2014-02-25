@@ -86,7 +86,8 @@ public class GridCreator : MonoBehaviour {
 			Transform newCell;
             newCell = (Transform)Instantiate(CellPrefab,
                         new Vector3(-1 * MazeMultiplier, 0, z * MazeMultiplier),
-                        Quaternion.identity); newCell.name = string.Format("({0},0,{1})", -1, z);
+                        Quaternion.identity);
+			newCell.name = string.Format("({0},0,{1})", -1, z);
 			newCell.parent = transform;
 			newCell.GetComponent<CellScript>().IsOuterWallCell = true;
 			newCell.GetComponent<CellScript>().Position = new Vector3(-1, 0, z);
@@ -98,7 +99,8 @@ public class GridCreator : MonoBehaviour {
 			Transform newCell;
             newCell = (Transform)Instantiate(CellPrefab,
                         new Vector3(x * MazeMultiplier, 0, -1 * MazeMultiplier),
-                        Quaternion.identity); newCell.name = string.Format("({0},0,{1})", x, -1);
+                        Quaternion.identity);
+			newCell.name = string.Format("({0},0,{1})", x, -1);
 			newCell.parent = transform;
 			newCell.GetComponent<CellScript>().IsOuterWallCell = true;
 			newCell.GetComponent<CellScript>().Position = new Vector3(x, 0, -1);
@@ -110,7 +112,8 @@ public class GridCreator : MonoBehaviour {
 			Transform newCell;
             newCell = (Transform)Instantiate(CellPrefab,
                         new Vector3(x * MazeMultiplier, 0, Size.z * MazeMultiplier),
-                        Quaternion.identity); newCell.name = string.Format("({0},0,{1})", x, Size.z);
+                        Quaternion.identity);
+			newCell.name = string.Format("({0},0,{1})", x, Size.z);
 			newCell.parent = transform;
 			newCell.GetComponent<CellScript>().IsOuterWallCell = true;
 			newCell.GetComponent<CellScript>().Position = new Vector3(x, 0, Size.z);
@@ -122,7 +125,8 @@ public class GridCreator : MonoBehaviour {
 			Transform newCell;
             newCell = (Transform)Instantiate(CellPrefab,
                         new Vector3(Size.x * MazeMultiplier, 0, z * MazeMultiplier),
-                        Quaternion.identity); newCell.name = string.Format("({0},0,{1})", Size.x, z);
+                        Quaternion.identity);
+			newCell.name = string.Format("({0},0,{1})", Size.x, z);
 			newCell.parent = transform;
 			newCell.GetComponent<CellScript>().IsOuterWallCell = true;
 			newCell.GetComponent<CellScript>().Position = new Vector3(Size.x, 0, z);
@@ -136,6 +140,8 @@ public class GridCreator : MonoBehaviour {
 			cell.GetComponentInChildren<TextMesh>().renderer.enabled = false;
 
 			cell.Translate (new Vector3(0f, 2f, 0f));
+			cell.localScale = new Vector3(cell.localScale.x * MazeMultiplier, cell.localScale.y, cell.localScale.z * MazeMultiplier);
+			cell.gameObject.layer = LayerMask.NameToLayer("Obstacles");
 
 				// We set the material of the walls.
 				if (FirstWallGeneration) { // Check if first generation of wall material.
@@ -160,9 +166,11 @@ public class GridCreator : MonoBehaviour {
 				Transform newCell;
                 newCell = (Transform)Instantiate(CellPrefab,
                             new Vector3(x * MazeMultiplier, 0, z * MazeMultiplier),
-                            Quaternion.identity); newCell.name = string.Format("({0},0,{1})", x, z);
+                            Quaternion.identity);
+				newCell.name = string.Format("({0},0,{1})", x, z);
+				newCell.localScale = new Vector3(newCell.localScale.x * MazeMultiplier, newCell.localScale.y, newCell.localScale.z * MazeMultiplier);
 				newCell.parent = transform;
-				newCell.GetComponent<CellScript>().Position = new Vector3(x, 0, z);
+				newCell.GetComponent<CellScript>().Position = new Vector3(x * MazeMultiplier, 0, z * MazeMultiplier);
 				Grid[x,z] = newCell;
 			}
 		}
@@ -170,7 +178,7 @@ public class GridCreator : MonoBehaviour {
 		// Centers the camera on the maze.
 		// Feel free to adjust this as needed.
 		Camera.main.transform.position = Grid[(int)(Size.x / 2f),(int)(Size.z / 2f)].position + Vector3.up * 20f;
-		Camera.main.orthographicSize = Mathf.Max(Size.x * 0.55f, Size.z * 0.55f);
+		Camera.main.orthographicSize = Mathf.Max(Size.x * 0.55f, Size.z * 0.55f) * MazeMultiplier;
 	}
 
 	// Sets a random weight to each cell.
@@ -299,7 +307,6 @@ public class GridCreator : MonoBehaviour {
 			// The maze is complete.
 			if (isEmpty) { 
 				Debug.Log("Generation completed in " + Time.timeSinceLevelLoad + " seconds."); 
-				gridBeingGenerated = false;
 				CancelInvoke("FindNext");
 				PathCells[PathCells.Count - 1].renderer.material.color = Color.red;
 				
@@ -312,12 +319,16 @@ public class GridCreator : MonoBehaviour {
 					if (!PathCells.Contains(cell)) {
 
 						// We make the maze 3D by translation.
-						cell.Translate(new Vector3(0f,2f,0f));
+						cell.Translate(new Vector3(0f, 2f, 0f));
 	
 						// Sets the wall call material to the material instance.
 						cell.renderer.material = WallInstance;
+
+						// Puts the cell into the "Obstacles" layer for pathfinding purposes.
+						cell.gameObject.layer = LayerMask.NameToLayer("Obstacles");
 					}
 				}
+				gridBeingGenerated = false;
 				return;
 			}
 
@@ -351,10 +362,10 @@ public class GridCreator : MonoBehaviour {
 	IEnumerator PlaceBatteries(){
 		float waitTime = 0.25f;
 		float timeWaited = 0f;
-			while (gridBeingGenerated) {
-				yield return new WaitForSeconds (waitTime);
-				timeWaited += waitTime;
-			}
+		while (gridBeingGenerated) {
+			yield return new WaitForSeconds (waitTime);
+			timeWaited += waitTime;
+		}
 		int batteriesPlaced = 0;
 		List<Transform> cellsUsed = new List<Transform>();
 		while (batteriesPlaced < MaxBatteries && batteriesPlaced < PathCells.Count) {
@@ -386,9 +397,8 @@ public class GridCreator : MonoBehaviour {
 			timeWaited += waitTime;
 		}
 		//TODO: Make a the graph update properly so the game doesn't hang when a monster gets placed.
-		/*NavGraph graph = GameObject.FindGameObjectWithTag("NavGraph");
-		AstarPath path = graph.
-		path.Scan ();*/
+		AstarPath.active.Scan();
+		Debug.Log ("AstarPath.active.Scan() called at " + Time.timeSinceLevelLoad);
 		int monstersPlaced = 0;
 		List<Transform> cellsUsed = new List<Transform>();
 		// We also check against PathCells.Count so that we can't run out of cells to use.
@@ -406,7 +416,7 @@ public class GridCreator : MonoBehaviour {
 			if(!(placementAttempts > 1000)){
 				cellsUsed.Add (targetCell);
 				Vector3 cellPosition = targetCell.position;
-				cellPosition.Set (cellPosition.x, cellPosition.y + 1, cellPosition.z);
+				cellPosition.Set (cellPosition.x, cellPosition.y + 1.5f, cellPosition.z);
 				Transform monster = (Transform)Instantiate (Monster, cellPosition, Quaternion.identity);
 			}
 			monstersPlaced++;
