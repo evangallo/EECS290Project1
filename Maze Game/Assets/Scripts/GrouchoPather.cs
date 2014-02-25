@@ -28,17 +28,16 @@ public class GrouchoPather : MonoBehaviour {
         {
 
             // Randomly determine initial target
-           /* GameObject[] cells = GameObject.FindGameObjectsWithTag("Cell");
-            if (cells.Length == 0)
-            {
-                target = transform;
-               Debug.Log("Had to make a Groucho target himself. QQ");
+            GameObject[] cells = GameObject.FindGameObjectsWithTag("Cell");
+            if (cells.Length == 0){
+            	target = transform;
+            	Debug.Log("Had to make a Groucho target himself. QQ");
             }
-            else
-            {
+            else{
                 target = cells[Random.Range(0, cells.Length - 1)].transform;
-            }*/
-            target = GameObject.FindGameObjectsWithTag("Player")[0].transform;
+            }
+			Debug.Log ("Sending a Groucho to " + target.name);
+            //target = GameObject.FindGameObjectsWithTag("Player")[0].transform;
             Seeker seeker = GetComponent<Seeker>();
             seeker.StartPath(transform.position, target.position, OnPathComplete);
             currentWaypoint = 0;
@@ -65,16 +64,32 @@ public class GrouchoPather : MonoBehaviour {
 			yield return new WaitForSeconds(waitTime);
 		}while(false);
 
-		target = GameObject.FindGameObjectsWithTag("Player")[0].transform;
-		Seeker seeker = GetComponent<Seeker>();
-		seeker.StartPath(transform.position, target.position, OnPathComplete);
+		if(1 == 0){
+			target = GameObject.FindGameObjectsWithTag("Player")[0].transform;
+			Seeker seeker = GetComponent<Seeker>();
+			seeker.StartPath(transform.position, target.position, OnPathComplete);
+		}
 	}
 
 	void FixedUpdate(){
 		if(path == null)
 			return;
-		if(currentWaypoint >= path.vectorPath.Count)
+		if(currentWaypoint >= path.vectorPath.Count){
+			GameObject[] cells = GameObject.FindGameObjectsWithTag("Cell");
+			if (cells.Length == 0){
+				target = transform;
+				Debug.Log("Had to make a Groucho target himself. QQ");
+			}
+			else{
+				target = cells[Random.Range(0, cells.Length - 1)].transform;
+			}
+			Debug.Log ("Sending a Groucho to " + target.name);
+			//target = GameObject.FindGameObjectsWithTag("Player")[0].transform;
+			Seeker seeker = GetComponent<Seeker>();
+			seeker.StartPath(transform.position, target.position, OnPathComplete);
+			currentWaypoint = 0;
 			return;
+		}
 		Vector3 direction = (path.vectorPath[currentWaypoint] - transform.position).normalized * speed;
 		charController.SimpleMove(direction);
 		Vector3 lookDirection = direction;
