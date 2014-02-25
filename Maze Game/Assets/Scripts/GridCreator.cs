@@ -26,6 +26,9 @@ public class GridCreator : MonoBehaviour {
 	// Prefab of maze cell, very basic default diffuse, loaded in Inspector.
 	public Transform CellPrefab;
 
+	// Prefab of the trigger block for the end of the level
+	public Transform EndCellTrigger;
+
 	// Prefab of the monster enemy
 	public Transform Monster;
 
@@ -309,6 +312,10 @@ public class GridCreator : MonoBehaviour {
 				Debug.Log("Generation completed in " + Time.timeSinceLevelLoad + " seconds."); 
 				CancelInvoke("FindNext");
 				PathCells[PathCells.Count - 1].renderer.material.color = Color.red;
+
+				Transform cube = (Transform)Instantiate (EndCellTrigger,
+				                                         new Vector3(PathCells[PathCells.Count - 1].position.x, 2, PathCells[PathCells.Count - 1].position.z),
+				                                         Quaternion.identity);
 				
 				foreach (Transform cell in Grid) {
 					// Removes displayed weight
