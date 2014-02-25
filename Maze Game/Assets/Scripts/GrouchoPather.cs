@@ -19,6 +19,24 @@ public class GrouchoPather : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		Transform player = GameObject.FindGameObjectsWithTag ("Player") [0].transform;
+		if ((player.position - transform.position).magnitude < (5 * speed)) {
+			target = player;
+			Seeker seeker = GetComponent<Seeker>();
+			seeker.StartPath (transform.position, target.position, OnPathComplete);
+			havePath = true;
+			Debug.Log ("Groucho going toward player now!");
+		}else if((player.position - transform.position).magnitude < (15 * speed)){
+			GameObject[] cells = GameObject.FindGameObjectsWithTag("Cell");
+			if (cells.Length == 0){
+				target = transform;
+				Debug.Log("Had to make a Groucho target himself. QQ");
+			}
+			else{
+				target = cells[Random.Range(0, cells.Length - 1)].transform;
+			}
+			Debug.Log ("No longer following player. Sending a Groucho to " + target.name);
+		}
         BeginPath();
 	}
 
