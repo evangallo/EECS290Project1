@@ -7,7 +7,8 @@ public class PlayerController : MonoBehaviour {
 	public float movementSpeed = 5.0f;
 	public float mouseSensitivity = 5.0f;
 	public float jumpSpeed = 20.0f;
-	public Transform PlayerCamera;
+	public Camera PlayerCamera;
+	public Camera WeaponCamera;
 	public float playerHealth = 100.0f;
 	
 	float verticalRotation = 0;
@@ -58,14 +59,14 @@ public class PlayerController : MonoBehaviour {
 
 	}
 
-	void OnTriggerEnter(Collider other){
+	void OnCollisionEnter(Collider other){
 		Debug.Log ("You're touching an object!");
 		if (other.tag == "Monster") {
-						Debug.Log ("You're touching a monster!");
-						playerHealth -= 300.0f;
-				} else {
-						Debug.Log (other.tag);
-				}
+			Debug.Log ("You're touching a monster!");
+			playerHealth -= 30.0f;
+		} else {
+			Debug.Log ("You touched a " + other.tag + ", which is NOT a Monster!");
 		}
+	}
 
 }
