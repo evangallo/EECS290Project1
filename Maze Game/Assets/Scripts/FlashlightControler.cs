@@ -6,9 +6,11 @@ public class FlashlightControler : MonoBehaviour {
 	public float batteryLifeIncrement;
 	public Light flashLight;
 	public GUIText batteryLifeDisplay;
+	public float maxBatteryLife;
 
 	private float batteryLife;
 	private float initialBrightness;
+	private bool lightOn = true;
 	
 	void Start () {
 		initialBrightness = flashLight.intensity;
@@ -16,15 +18,19 @@ public class FlashlightControler : MonoBehaviour {
 	}
 	
 	void Update () {
-		if (batteryLife >= 0) {
+		if (lightOn) {
 			batteryLife -= Time.deltaTime;
+			if (batteryLife < 100)
+				flashLight.intensity = initialBrightness / 2;
 		} else {
 			flashLight.intensity = 0f;
+			lightOn = false;
 		}
 		batteryLifeDisplay.text = "Battery Life: " + Mathf.Round (batteryLife);
 	}
 
 	void ExtendBatteryLife () {
+		if(batteryLife <= maxBatteryLife)
 		batteryLife += batteryLifeIncrement;
 		flashLight.intensity = initialBrightness;
 	}

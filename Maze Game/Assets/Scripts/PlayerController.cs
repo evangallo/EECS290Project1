@@ -9,8 +9,7 @@ public class PlayerController : MonoBehaviour {
 	public float jumpSpeed = 20.0f;
 	public Camera PlayerCamera;
 	public Camera WeaponCamera;
-	public float playerHealth = 100.0f;
-	
+		
 	float verticalRotation = 0;
 	public float upDownRange = 60.0f;
 	
@@ -26,10 +25,7 @@ public class PlayerController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		//Death Check
-		if (playerHealth <= 0.0f) {
-			Application.LoadLevel (2);
-		}
+
 		// Rotation
 		
 		float rotLeftRight = Input.GetAxis("Mouse X") * mouseSensitivity;
@@ -53,20 +49,9 @@ public class PlayerController : MonoBehaviour {
 		Vector3 speed = new Vector3( sideSpeed, verticalVelocity, forwardSpeed );
 		
 		speed = transform.rotation * speed;
-		
-		
+
 		characterController.Move( speed * Time.deltaTime );
 
-	}
-
-	void OnCollisionEnter(Collision other){
-		Debug.Log ("You're touching an object!");
-		if (other.collider.transform.tag == "Monster") {
-			Debug.Log ("You're touching a monster!");
-			playerHealth -= 30.0f;
-		} else {
-			Debug.Log ("You touched a " + other.collider.transform.tag + ", which is NOT a Monster!");
-		}
 	}
 
 }

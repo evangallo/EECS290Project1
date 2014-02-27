@@ -25,12 +25,10 @@ public class MonsterHealth : MonoBehaviour {
             ShotController t = (ShotController)thisCollision.gameObject.GetComponent("ShotController");
             health -= t.damage;
         }
-
     }
     void ApplyDamage(float damage)
     {
         health -= damage;
     }
-
 
 }
