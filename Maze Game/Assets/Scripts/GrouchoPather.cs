@@ -14,6 +14,7 @@ public class GrouchoPather : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		speed = speed * End.GetLevel ();
 		StartCoroutine(PathUpdater());
 	}
 	
