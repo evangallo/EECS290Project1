@@ -67,6 +67,11 @@ public class GridCreator : MonoBehaviour {
 //	private ProceduralPropertyDescription[] currPathProperties;
 
 	// Creates Maze boundaries, then generates maze with Prim's Algorithm, then texturizes maze cells.
+	/**
+	* Runs at the beginning of the level, setting the size based on which level we're on.
+	* Calls all necessary methods to generate the maze, place the monsters, and place the
+	* batteries.
+	*/
 	void Start () {
 		Size.x = Size.x * End.GetLevel ();
 		Size.z = Size.z * End.GetLevel ();
@@ -82,6 +87,9 @@ public class GridCreator : MonoBehaviour {
 	}
 
 	// Creates the boundary for the maze by instantiating cell walls and materials.
+	/**
+	* Creates the walls on the outer rim of the maze so that players can't walk off the edge.
+	*/
 	void CreateMazeBoundaryGrid() {
 
 		// List of boundary cells for the outer realms of the maze.
@@ -163,6 +171,11 @@ public class GridCreator : MonoBehaviour {
 	}
 
 	// Creates the grid by instantiating provided cell prefabs.
+	/**
+	* Generates the maze via a modified Prim's algorithm provided by Tim.
+	* Also signals the PlaceMonsters and PlaceBatteries methods via a boolean when
+	* the maze has been generated.
+	*/
 	void CreateGrid () {
 		Grid = new Transform[(int)Size.x,(int)Size.z];
 
@@ -188,6 +201,9 @@ public class GridCreator : MonoBehaviour {
 	}
 
 	// Sets a random weight to each cell.
+	/**
+	* Assigns the weights to each cell for maze generation.
+	*/
 	void SetRandomNumbers () {
 		foreach (Transform child in transform) {
 			int weight = Random.Range(0,10);
@@ -197,6 +213,9 @@ public class GridCreator : MonoBehaviour {
 	}
 
 	// Determines the adjacent cells of each cell in the grid.
+	/**
+	* Determines the adjacent cells of each cell in the grid for maze generation.
+	*/
 	void SetAdjacents () {
 		for(int x = 0; x < Size.x; x++){
 			for (int z = 0; z < Size.z; z++) {
@@ -225,6 +244,9 @@ public class GridCreator : MonoBehaviour {
 	// Sorts the weights of adjacent cells.
 	// Check the link for more info on custom comparators and sorting.
 	// http://msdn.microsoft.com/en-us/library/0e743hdt.aspx
+	/**
+	* A custon comparator for sorting the cells
+	*/
 	int SortByLowestWeight (Transform inputA, Transform inputB) {
 		int a = inputA.GetComponent<CellScript>().Weight;
 		int b = inputB.GetComponent<CellScript>().Weight;
@@ -260,6 +282,9 @@ public class GridCreator : MonoBehaviour {
 	 */  
 
 	// Initializes the sets and the starting cell.
+	/**
+	* Creates and flags with green the initial cell.
+	*/
 	void SetStart () {
 		PathCells = new List<Transform>();
 		AdjSet = new List<List<Transform>>();
@@ -273,6 +298,10 @@ public class GridCreator : MonoBehaviour {
 	}
 
 	// Adds a cell to the set of visited cells.
+	/**
+	* Adds a cell to the set of visited cells.
+	* @param cellToAdd The cell to be added
+	*/
 	void AddToSet (Transform cellToAdd) {
 		PathCells.Add(cellToAdd);
 		
@@ -286,6 +315,9 @@ public class GridCreator : MonoBehaviour {
 	}
 
 	// Determines the next cell to be visited.
+	/**
+	* Determines the next cell to be visited. Sets the boolean to flag for completed generation.
+	*/
 	void FindNext () {
 		Transform next;
 		
@@ -369,6 +401,9 @@ public class GridCreator : MonoBehaviour {
 		Invoke("FindNext", 0);
 	}
 
+	/**
+	* Places batteries in random locations in the maze after the maze has been generated.
+	*/
 	IEnumerator PlaceBatteries(){
 		float waitTime = 0.25f;
 		float timeWaited = 0f;
@@ -398,6 +433,9 @@ public class GridCreator : MonoBehaviour {
 		}
 	}
 
+	/**
+	* Places monsters in random locations in the maze after the maze has been generated.
+	*/
 	IEnumerator PlaceMonsters(){
 		float waitTime = 0.25f;
 		float timeWaited = 0f;
@@ -435,6 +473,9 @@ public class GridCreator : MonoBehaviour {
 	}
 
 	// Called once per frame.
+	/**
+	* At each frame, checks for the F1 key being pressed. If it is, reloads the level.
+	*/
 	void Update() {
 
 		// Pressing 'F1' will generate a new maze.
