@@ -32,9 +32,3 @@ Icon?
 ehthumbs.db
 Thumbs.db
 
-# ==================== #
-# Application Binaries #
-# ==================== #
-*.app
-*.exe
-Dead\ in\ the\ Dark_Data/
