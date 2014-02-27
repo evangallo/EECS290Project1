@@ -9,6 +9,9 @@ public class PlayerController : MonoBehaviour {
 	public float jumpSpeed = 20.0f;
 	public Camera PlayerCamera;
 	public Camera WeaponCamera;
+	public GUIText pauseGameText;
+
+	private bool gamePaused = false;
 		
 	float verticalRotation = 0;
 	public float upDownRange = 60.0f;
@@ -22,9 +25,23 @@ public class PlayerController : MonoBehaviour {
 		Screen.lockCursor = true;
 		characterController = GetComponent<CharacterController>();
 	}
+
+	void Update() {
+		if (Input.GetKeyDown(KeyCode.Escape) && !gamePaused){
+			
+			Time.timeScale = 0.0f;
+			gamePaused = true;
+			pauseGameText.text = "Game Paused";
+			
+		} else if (Input.GetKeyDown(KeyCode.Escape) && gamePaused){
+			Time.timeScale = 1.0f;
+			gamePaused = false;
+			pauseGameText.text = "";
+		}
+	}
 	
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
 
 		// Rotation
 		
@@ -51,7 +68,7 @@ public class PlayerController : MonoBehaviour {
 		speed = transform.rotation * speed;
 
 		characterController.Move( speed * Time.deltaTime );
-
+		
 	}
 
 }
