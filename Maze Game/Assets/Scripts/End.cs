@@ -3,6 +3,9 @@ using System.Collections;
 
 public class End : MonoBehaviour {
 
+	// The level counter.
+	public static float level = 1;
+
 	// Use this for initialization
 	void Start () {
 	
@@ -17,6 +20,7 @@ public class End : MonoBehaviour {
 	{
 		if (other.tag == "Player") {
 			Application.LoadLevel (1);
-				}
+			level += 1;
+		}
 	}
 }

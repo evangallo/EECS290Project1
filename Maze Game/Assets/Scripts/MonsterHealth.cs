@@ -2,10 +2,13 @@
 using System.Collections;
 
 public class MonsterHealth : MonoBehaviour {
+
+	// Health of the monster
     public float health;
+
 	// Use this for initialization
 	void Start () {
-	
+		health = health * End.level;
 	}
 	
 	// Update is called once per frame
