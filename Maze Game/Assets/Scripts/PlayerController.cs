@@ -25,9 +25,6 @@ public class PlayerController : MonoBehaviour {
 	// The player's health.
 	public float playerHealth = 100.0f;
 
-	// The on-screen display of the player's health.
-	public GUIText healthDisplay;
-
 	// The on-screen pause text.
 	public GUIText pauseGameText;
 	
@@ -51,13 +48,14 @@ public class PlayerController : MonoBehaviour {
 		Screen.lockCursor = true;
 		characterController = GetComponent<CharacterController>();
 	}
-	
+
 	/**
-	 * Every frame, move the camera based on mouse movement
-	 * and move the character based on keyboard input.
-	 * Also update health information.
+	 * Handle game pause and game exit key presses.
+	 * Escape key pauses game, F2 key quits game.
 	 */
 	void Update() {
+
+
 		if (Input.GetKeyDown(KeyCode.Escape) && !gamePaused){
 			
 			Time.timeScale = 0.0f;
@@ -66,12 +64,21 @@ public class PlayerController : MonoBehaviour {
 			
 		} else if (Input.GetKeyDown(KeyCode.Escape) && gamePaused){
 			Time.timeScale = 1.0f;
-			gamePaused = false;
 			Screen.lockCursor = true;
+			gamePaused = false;
 			pauseGameText.text = "";
 		}
+
+		// Quits game
+		if (Input.GetKeyDown (KeyCode.F2))
+			Application.Quit ();
 	}
 
+	/**
+	 * Every frame, move the camera based on mouse movement
+	 * and move the character based on keyboard input.
+	 * Also update health information.
+	 */
 	void FixedUpdate () {
 		
 		// Rotation

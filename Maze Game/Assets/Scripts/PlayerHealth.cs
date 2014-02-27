@@ -4,6 +4,7 @@ using System.Collections;
 /**
  * A class that controls the player's health.
  */
+[RequireComponent(typeof(AudioSource))]
 public class PlayerHealth : MonoBehaviour {
 
 	// The amount of health assigned to the player.
@@ -12,6 +13,8 @@ public class PlayerHealth : MonoBehaviour {
 	// A textual representation of the player's health, displayed on screen.
 	public GUIText PlayerHealthText;
 
+	// Noise of Monster.
+	public AudioClip MonsterNoise;
 	
 	/**
 	 * The player's health increases with each level.
@@ -26,7 +29,10 @@ public class PlayerHealth : MonoBehaviour {
 	 */
 	void Update () {
 
+		//monsterCollision = false;
+
 		if (playerHealth <= 0.0f) {
+			Screen.lockCursor = false;
 			Application.LoadLevel (2);
 		}
 
@@ -35,13 +41,14 @@ public class PlayerHealth : MonoBehaviour {
 
 	/**
 	 * If the player touches a monster, decreases the player's health.
+	 * Monster also roars when collision happens.
 	 * @param other The object colliding with the player.
 	 */
 	void OnTriggerEnter(Collider other)
 	{
 		if (other.tag == "Monster") {
-
 			playerHealth -= 5;
+			audio.PlayOneShot (MonsterNoise, 0.7F);
 		}
 	
 	}
@@ -53,7 +60,8 @@ public class PlayerHealth : MonoBehaviour {
 	void OnTriggerStay(Collider other)
 	{
 
-		if(other.tag == "Monster")
-			playerHealth -= Time.deltaTime * End.GetLevel();
+		if (other.tag == "Monster") {
+			playerHealth -= Time.deltaTime * End.GetLevel ();
+		}
 	}
 }
