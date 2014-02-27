@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/**
+ * Unused.
+ */
 public class TempShot : MonoBehaviour
 {
 
