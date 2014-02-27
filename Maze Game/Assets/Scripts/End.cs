@@ -20,7 +20,15 @@ public class End : MonoBehaviour {
 	{
 		if (other.tag == "Player") {
 			Application.LoadLevel (1);
-			level += 1;
+			IncrementLevel ();
 		}
+	}
+
+	void IncrementLevel(){
+		level++;
+	}
+
+	public static float GetLevel(){
+		return level;
 	}
 }
