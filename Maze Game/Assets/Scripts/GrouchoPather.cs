@@ -4,11 +4,16 @@ using Pathfinding;
 
 public class GrouchoPather : MonoBehaviour {
 
+	// The path this Groucho is currently on. Will be set by Seeker.StartPath
 	public Path path;
+	// The speed of this Groucho
 	public float speed;
 
+	// The transform to which this Groucho will walk
 	private Transform target;
+	// The current waypoint along the path this Groucho is on
 	private int currentWaypoint;
+	// The Character Controller component of this Groucho
 	private CharacterController charController;
     private bool havePath = false; //seemed to be trying to path before grid was calculated
 
