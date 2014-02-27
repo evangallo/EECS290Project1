@@ -62,8 +62,8 @@ public class FlashlightControler : MonoBehaviour {
 	void ExtendBatteryLife () {
 
 		if(batteryLife <= maxBatteryLife) {
-			//
-			if((batteryLife += batteryLifeIncrement) > maxBatteryLife){
+			batteryLife += batteryLifeIncrement;
+			if(batteryLife > maxBatteryLife){
 				batteryLife = maxBatteryLife;
 			}
 			flashLight.intensity = initialBrightness;
