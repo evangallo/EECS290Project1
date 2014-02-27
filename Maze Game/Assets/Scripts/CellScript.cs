@@ -24,4 +24,3 @@ public class CellScript : MonoBehaviour {
 	//Whether this cell is part of the outside wall or not.
 	public bool IsOuterWallCell = false;
 }
->>>>>>> 29a3991337d9ce4082ffa16e8747c3b202d44189
