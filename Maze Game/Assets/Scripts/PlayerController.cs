@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour {
 	public Camera PlayerCamera;
 	public Camera WeaponCamera;
 	public float playerHealth = 100.0f;
+	public GUIText healthDisplay;
 	
 	float verticalRotation = 0;
 	public float upDownRange = 60.0f;
@@ -57,6 +58,7 @@ public class PlayerController : MonoBehaviour {
 		
 		characterController.Move( speed * Time.deltaTime );
 
+		healthDisplay.text = "Health: " + playerHealth;
 	}
 
 	void OnCollisionEnter(Collision other){
