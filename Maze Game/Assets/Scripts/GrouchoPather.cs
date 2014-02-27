@@ -4,12 +4,20 @@ using Pathfinding;
 
 public class GrouchoPather : MonoBehaviour {
 
+	// The path this Groucho is currently on. Will be set by Seeker.StartPath
 	public Path path;
+	// The speed of this Groucho
 	public float speed;
 
+	// The transform to which this Groucho will walk
 	private Transform target;
+	// The current waypoint along the path this Groucho is on
 	private int currentWaypoint;
+	// The Character Controller component of this Groucho
 	private CharacterController charController;
+	
+	// Tells the Groucho whether it is following the player so it knows when to stop
+	private bool followingPlayer = false;
     private bool havePath = false; //seemed to be trying to path before grid was calculated
 
 	// Use this for initialization
@@ -36,8 +44,9 @@ public class GrouchoPather : MonoBehaviour {
 			Seeker seeker = GetComponent<Seeker>();
 			seeker.StartPath (transform.position, target.position, OnPathComplete);
 			havePath = true;
+			followingPlayer = true;
 			Debug.Log ("Groucho going toward player now!");
-		}else if((player.position - transform.position).magnitude < (15 * speed)){
+		}else if((player.position - transform.position).magnitude < (15 * speed) && followingPlayer){
 			GameObject[] cells = GameObject.FindGameObjectsWithTag("Cell");
 			if (cells.Length == 0){
 				target = transform;
@@ -46,6 +55,7 @@ public class GrouchoPather : MonoBehaviour {
 			else{
 				target = cells[Random.Range(0, cells.Length - 1)].transform;
 			}
+			followingPlayer = false;
 			Debug.Log ("No longer following player. Sending a Groucho to " + target.name);
 		}
         BeginPath();
