@@ -19,12 +19,14 @@ public class FlashlightControler : MonoBehaviour {
 	
 	void Update () {
 		if (lightOn) {
-			batteryLife -= Time.deltaTime;
+			batteryLife -= Time.deltaTime * End.GetLevel ();
 			if (batteryLife < 100)
 				flashLight.intensity = initialBrightness / 2;
+			else if (batteryLife <= 0){
+				lightOn = false;
+			}
 		} else {
 			flashLight.intensity = 0f;
-			lightOn = false;
 		}
 		batteryLifeDisplay.text = "Battery Life: " + Mathf.Round (batteryLife) + " seconds";
 	}

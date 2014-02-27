@@ -20,8 +20,8 @@ using Pathfinding;
  */ 
 public class GridCreator : MonoBehaviour {
 
-    // Multiplies the size of the maze; initially set to one.
-    public float MazeMultiplier = 1;
+    // Multiplies the size of the maze; initially set to two.
+    public float MazeMultiplier = 2;
 
 	// Prefab of maze cell, very basic default diffuse, loaded in Inspector.
 	public Transform CellPrefab;
@@ -68,6 +68,9 @@ public class GridCreator : MonoBehaviour {
 
 	// Creates Maze boundaries, then generates maze with Prim's Algorithm, then texturizes maze cells.
 	void Start () {
+		Size.x = Size.x * End.GetLevel ();
+		Size.z = Size.z * End.GetLevel ();
+		MaxMonsters = MaxMonsters % (int)Size.x;
 		CreateMazeBoundaryGrid();
 		CreateGrid();
 		SetRandomNumbers();
