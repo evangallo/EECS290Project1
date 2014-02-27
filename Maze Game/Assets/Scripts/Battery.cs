@@ -1,6 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/**
+ * Literally all this class does is govern what happens when a battery is touched.
+ * It's nothing special.
+ */
 public class Battery : MonoBehaviour {
 
 	// Use this for initialization
@@ -13,6 +17,11 @@ public class Battery : MonoBehaviour {
 	
 	}
 
+	/**
+	 * When a battery is touchedby the player,
+	 * extend the battery life and destroy the battery object.
+	 * @param other The collider that touched the battery.
+	 */
     void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player")

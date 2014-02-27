@@ -13,12 +13,22 @@ public class GrouchoPather : MonoBehaviour {
     private bool havePath = false; //seemed to be trying to path before grid was calculated
 
 	// Use this for initialization
+	/**
+	* Run when Groucho is instantiated
+	* Sets speed of the monssers.
+	*/
 	void Start () {
 		speed = speed * End.GetLevel ();
-		StartCoroutine(PathUpdater());
 	}
 	
 	// Update is called once per frame
+	/**
+	* Checks to see if the player is close and, if s/he is, starts the monster
+	* moving toward the player. Once aggro'd on the player, will de-aggro if
+	* the player moves too far away.
+	* Otherwise, allows the monster to continue on his randomly-assiged path.
+	* Runs on each frame update.
+	*/
 	void Update () {
 		Transform player = GameObject.FindGameObjectsWithTag ("Player") [0].transform;
 		if ((player.position - transform.position).magnitude < (5 * speed)) {
@@ -41,6 +51,10 @@ public class GrouchoPather : MonoBehaviour {
         BeginPath();
 	}
 
+	/**
+	* When we don't have a path, will pick a random cell in the maze
+	* and move the monster to that cll via A*. Otherrwise, returns.
+	*/
     void BeginPath()
     {
         if (!havePath)
@@ -69,6 +83,14 @@ public class GrouchoPather : MonoBehaviour {
         }
     }
 	
+	/**
+	* Logs an error to the Debug console if the path had an issue while
+	* generating, otherwise sets sets our local Path to the path that was
+	* generated.
+	* This method should not be used explicitly, but rather by passing it
+	* as an argument to the Seeker.StartPath method.
+	* @param p The path that was generated.
+	*/
 	public void OnPathComplete(Path p){
 		if(p.error){
 			Debug.Log ("Failed to generate a path.");
@@ -77,19 +99,14 @@ public class GrouchoPather : MonoBehaviour {
 		path = p;
 	}
 
-	IEnumerator PathUpdater(){
-		float waitTime = 0.25f;
-		do{
-			yield return new WaitForSeconds(waitTime);
-		}while(false);
-
-		if(1 == 0){
-			target = GameObject.FindGameObjectsWithTag("Player")[0].transform;
-			Seeker seeker = GetComponent<Seeker>();
-			seeker.StartPath(transform.position, target.position, OnPathComplete);
-		}
-	}
-
+	/**
+	* If we do not have a path, returns. Otherwise, checks to see if we have completed
+	* our path and, if we have, chooses a new random cell to send the monster to.
+	* If we have not completed it, we move toward the next waypoint in the path based on
+	* our speed and the amount of time that has passed since the last call to this method.
+	* Also rotates the monster to face the direction he is moving.
+	* Runs 60 times per second.
+	*/
 	void FixedUpdate(){
 		if(path == null)
 			return;

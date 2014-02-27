@@ -1,31 +1,62 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/**
+ * The class that controls the player.
+ */
 [RequireComponent (typeof(CharacterController))]
 public class PlayerController : MonoBehaviour {
-	
-	public float movementSpeed = 5.0f;
-	public float mouseSensitivity = 5.0f;
-	public float jumpSpeed = 20.0f;
-	public Camera PlayerCamera;
-	public Camera WeaponCamera;
-	public GUIText pauseGameText;
 
-	private bool gamePaused = false;
-		
+	// The player's movement speed.
+	public float movementSpeed = 5.0f;
+
+	// The mouse sensitivity.
+	public float mouseSensitivity = 5.0f;
+
+	// The speed of the player's jump.
+	public float jumpSpeed = 20.0f;
+
+	// Player camera.
+	public Camera PlayerCamera;
+
+	// Weapon camera.
+	public Camera WeaponCamera;
+
+	// The player's health.
+	public float playerHealth = 100.0f;
+
+	// The on-screen display of the player's health.
+	public GUIText healthDisplay;
+
+	// The on-screen pause text.
+	public GUIText pauseGameText;
+	
+	// The position of the player's camera, based on the mouse movement.
 	float verticalRotation = 0;
 	public float upDownRange = 60.0f;
 	
 	float verticalVelocity = 0;
-	
+
+	// The controller of the character.
 	CharacterController characterController;
-	
-	// Use this for initialization
+
+	// Is the game paused?
+	private bool gamePaused = false;
+
+	/**
+	 * When the player is spawned, lock the cursor
+	 * to the screen so that it disappears.
+	 */
 	void Start () {
 		Screen.lockCursor = true;
 		characterController = GetComponent<CharacterController>();
 	}
-
+	
+	/**
+	 * Every frame, move the camera based on mouse movement
+	 * and move the character based on keyboard input.
+	 * Also update health information.
+	 */
 	void Update() {
 		if (Input.GetKeyDown(KeyCode.Escape) && !gamePaused){
 			
@@ -36,13 +67,13 @@ public class PlayerController : MonoBehaviour {
 		} else if (Input.GetKeyDown(KeyCode.Escape) && gamePaused){
 			Time.timeScale = 1.0f;
 			gamePaused = false;
+			Screen.lockCursor = true;
 			pauseGameText.text = "";
 		}
 	}
-	
-	// Update is called once per frame
-	void FixedUpdate () {
 
+	void FixedUpdate () {
+		
 		// Rotation
 		
 		float rotLeftRight = Input.GetAxis("Mouse X") * mouseSensitivity;
@@ -66,9 +97,9 @@ public class PlayerController : MonoBehaviour {
 		Vector3 speed = new Vector3( sideSpeed, verticalVelocity, forwardSpeed );
 		
 		speed = transform.rotation * speed;
-
-		characterController.Move( speed * Time.deltaTime );
 		
-	}
+		characterController.Move( speed * Time.deltaTime );
 
+
+}
 }

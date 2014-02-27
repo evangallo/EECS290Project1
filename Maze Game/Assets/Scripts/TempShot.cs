@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/**
+ * Unused.
+ */
 public class TempShot : MonoBehaviour
 {
 
@@ -21,4 +24,3 @@ public class TempShot : MonoBehaviour
         pel.rigidbody.AddForce(transform.forward * 1000);
     }
 }
-
