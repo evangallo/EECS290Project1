@@ -26,7 +26,7 @@ public class FlashlightControler : MonoBehaviour {
 			flashLight.intensity = 0f;
 			lightOn = false;
 		}
-		batteryLifeDisplay.text = "Battery Life: " + Mathf.Round (batteryLife);
+		batteryLifeDisplay.text = "Battery Life: " + Mathf.Round (batteryLife) + " seconds";
 	}
 
 	void ExtendBatteryLife () {

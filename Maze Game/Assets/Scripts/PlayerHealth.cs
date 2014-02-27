@@ -3,13 +3,13 @@ using System.Collections;
 
 public class PlayerHealth : MonoBehaviour {
 
-	public float playerHealth = 100.0f * End.level;
+	public float playerHealth = 100.0f;
 	public GUIText PlayerHealthText;
 
 	
 	// Use this for initialization
 	void Start () {
-		
+		playerHealth = 100.0f * End.GetLevel();
 	}
 	
 	// Update is called once per frame
@@ -35,6 +35,6 @@ public class PlayerHealth : MonoBehaviour {
 	{
 
 		if(other.tag == "Monster")
-			playerHealth -= Time.deltaTime * End.level;
+			playerHealth -= Time.deltaTime * End.GetLevel();
 	}
 }

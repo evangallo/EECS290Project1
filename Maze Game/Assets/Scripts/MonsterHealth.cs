@@ -8,7 +8,7 @@ public class MonsterHealth : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		health = health * End.level;
+		health = health * End.GetLevel();
 	}
 	
 	// Update is called once per frame
