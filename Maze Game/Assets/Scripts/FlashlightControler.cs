@@ -43,11 +43,11 @@ public class FlashlightControler : MonoBehaviour {
 	void Update () {
 		if (lightOn) {
 			batteryLife -= Time.deltaTime;
-			if (batteryLife < 100)
-				flashLight.intensity = initialBrightness / 2;
-			else if (batteryLife <= 0){
+			if (batteryLife <= 0f){
 				lightOn = false;
 			}
+			else if (batteryLife < 100f)
+				flashLight.intensity = initialBrightness / 2;
 		} else {
 			flashLight.intensity = 0f;
 		}
@@ -68,5 +68,6 @@ public class FlashlightControler : MonoBehaviour {
 			}
 			flashLight.intensity = initialBrightness;
 		}
+		lightOn = true;
 	}
 }

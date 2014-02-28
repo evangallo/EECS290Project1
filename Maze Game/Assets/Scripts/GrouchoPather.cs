@@ -84,7 +84,7 @@ public class GrouchoPather : MonoBehaviour {
             Seeker seeker = GetComponent<Seeker>();
             seeker.StartPath(transform.position, target.position, OnPathComplete);
             currentWaypoint = 0;
-            if (speed == null || speed == 0)
+            if (speed.Equals(null) || speed == 0)
             {
                 speed = 1;
             }
