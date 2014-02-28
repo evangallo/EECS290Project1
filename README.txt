@@ -1,4 +1,11 @@
 Team 2
+Evan Gallo
+Ian Anderson
+Rachel Shands
+Jingchi Zhang
+Shaun Howard
+James Marsh
+Bryan Ogren
 
 Controls: WASD to move, ESC to pause/unpause, mouse to rotate the camera. F2 quits the game while it’s being played.
 
