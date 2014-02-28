@@ -8,7 +8,7 @@ using System.Collections;
 public class PlayerHealth : MonoBehaviour {
 
 	// The amount of health assigned to the player.
-	public float playerHealth = 100.0f;
+	public float playerHealth = 50.0f;
 
 	// A textual representation of the player's health, displayed on screen.
 	public GUIText PlayerHealthText;
@@ -20,7 +20,7 @@ public class PlayerHealth : MonoBehaviour {
 	 * The player's health increases with each level.
 	 */
 	void Start () {
-		playerHealth = 100.0f * End.GetLevel();
+		playerHealth = 50f + (10 * End.GetLevel());
 	}
 	
 	/**
